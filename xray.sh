@@ -57,7 +57,7 @@ SITES=(
 CONFIG_FILE="/usr/local/etc/xray/config.json"
 
 warpv4=$(curl -s4m8 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2)
-warpv6=$(curl -s4m8 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2)
+warpv6=$(curl -s6m8 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2)
 if [[ $warpv4 =~ on|plus ]] || [[ $warpv6 =~ on|plus ]]; then
 	wg-quick down wgcf >/dev/null 2>&1
 	systemctl stop warp-go >/dev/null 2>&1
