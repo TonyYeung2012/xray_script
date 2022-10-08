@@ -235,7 +235,7 @@ getData() {
 				green "建议如下："
 				yellow " 1. 请确保Cloudflare小云朵为关闭状态(仅限DNS)，其他域名解析网站设置同理"
 				yellow " 2. 请检查DNS解析设置的IP是否为VPS的IP"
-				yellow " 3. 脚本可能跟不上时代，建议截图发布到GitHub Issues或TG群询问"
+				yellow " 3. 脚本可能跟不上时代，建议截图发布到GitLab Issues或TG群询问"
 				exit 1
 			fi
 		fi
@@ -407,7 +407,7 @@ module_hotfixes=true' >/etc/yum.repos.d/nginx.repo
 			red "Nginx安装失败！"
 			green "建议如下："
 			yellow "1. 检查VPS系统的网络设置和软件源设置，强烈建议使用系统官方软件源！"
-			yellow "2. 脚本可能跟不上时代，建议截图发布到GitHub Issues或TG群询问"
+			yellow "2. 脚本可能跟不上时代，建议截图发布到GitLab Issues或TG群询问"
 			exit 1
 		fi
 		systemctl enable nginx
@@ -467,13 +467,13 @@ getCert() {
 		~/.acme.sh/acme.sh --upgrade --auto-upgrade
 		~/.acme.sh/acme.sh --set-default-ca --server letsencrypt
 		if [[ $BT == "false" ]]; then
-			if [[ -n $(curl -sm8 ip.sb | grep ":") ]]; then
+			if [[ -z $ipv4 ]]; then
 				~/.acme.sh/acme.sh --issue -d $DOMAIN --keylength ec-256 --pre-hook "systemctl stop nginx" --post-hook "systemctl restart nginx" --standalone --listen-v6
 			else
 				~/.acme.sh/acme.sh --issue -d $DOMAIN --keylength ec-256 --pre-hook "systemctl stop nginx" --post-hook "systemctl restart nginx" --standalone
 			fi
 		else
-			if [[ -n $(curl -sm8 ip.sb | grep ":") ]]; then
+			if [[ -z $ipv4 ]]; then
 				~/.acme.sh/acme.sh --issue -d $DOMAIN --keylength ec-256 --pre-hook "nginx -s stop || { echo -n ''; }" --post-hook "nginx -c /www/server/nginx/conf/nginx.conf || { echo -n ''; }" --standalone --listen-v6
 			else
 				~/.acme.sh/acme.sh --issue -d $DOMAIN --keylength ec-256 --pre-hook "nginx -s stop || { echo -n ''; }" --post-hook "nginx -c /www/server/nginx/conf/nginx.conf || { echo -n ''; }" --standalone
@@ -484,7 +484,7 @@ getCert() {
 			green "建议如下："
 			yellow " 1. 自行检测防火墙是否打开，如防火墙正在开启，请关闭防火墙或放行80端口"
 			yellow " 2. 同一域名多次申请触发Acme.sh官方风控，请更换域名或等待7天后再尝试执行脚本"
-			yellow " 3. 脚本可能跟不上时代，建议截图发布到GitHub Issues或TG群询问"
+			yellow " 3. 脚本可能跟不上时代，建议截图发布到GitLab Issues或TG群询问"
 			exit 1
 		}
 		CERT_FILE="/usr/local/etc/xray/${DOMAIN}.pem"
@@ -498,7 +498,7 @@ getCert() {
 			green "建议如下："
 			yellow " 1. 自行检测防火墙是否打开，如防火墙正在开启，请关闭防火墙或放行80端口"
 			yellow " 2. 同一域名多次申请触发Acme.sh官方风控，请更换域名或等待7天后再尝试执行脚本"
-			yellow " 3. 脚本可能跟不上时代，建议截图发布到GitHub Issues或TG群询问"
+			yellow " 3. 脚本可能跟不上时代，建议截图发布到GitLab Issues或TG群询问"
 			exit 1
 		}
 	else
