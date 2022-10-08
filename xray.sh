@@ -70,7 +70,11 @@ else
 	ipv6=$(curl -s6m8 api64.ipify.org -k)
 fi
 
-IP=$(curl -s6m8 ip.sb) || IP=$(curl -s4m8 ip.sb)
+if [[ -z $ipv4 ]]; then
+	IP=$ipv6
+else
+	IP=$ipv4
+fi
 
 BT="false"
 NGINX_CONF_PATH="/etc/nginx/conf.d/"
