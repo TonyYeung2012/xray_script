@@ -138,11 +138,11 @@ status() {
 statusText() {
 	res=$(status)
 	case $res in
-		2) echo -e ${GREEN}已安装${PLAIN} ${RED}未运行${PLAIN} ;;
-		3) echo -e ${GREEN}已安装${PLAIN} ${GREEN}Xray正在运行${PLAIN} ;;
-		4) echo -e ${GREEN}已安装${PLAIN} ${GREEN}Xray正在运行${PLAIN}, ${RED}Nginx未运行${PLAIN} ;;
-		5) echo -e ${GREEN}已安装${PLAIN} ${GREEN}Xray正在运行, Nginx正在运行${PLAIN} ;;
-		*) echo -e ${RED}未安装${PLAIN} ;;
+	2) echo -e ${GREEN}已安装${PLAIN} ${RED}未运行${PLAIN} ;;
+	3) echo -e ${GREEN}已安装${PLAIN} ${GREEN}Xray正在运行${PLAIN} ;;
+	4) echo -e ${GREEN}已安装${PLAIN} ${GREEN}Xray正在运行${PLAIN}, ${RED}Nginx未运行${PLAIN} ;;
+	5) echo -e ${GREEN}已安装${PLAIN} ${GREEN}Xray正在运行, Nginx正在运行${PLAIN} ;;
+	*) echo -e ${RED}未安装${PLAIN} ;;
 	esac
 }
 
@@ -150,9 +150,9 @@ normalizeVersion() {
 	latestXrayVer=v$(curl -Ls "https://data.jsdelivr.com/v1/package/resolve/gh/XTLS/Xray-core" | grep '"version":' | sed -E 's/.*"([^"]+)".*/\1/')
 	if [ -n "$1" ]; then
 		case "$1" in
-			v*) echo "$1" ;;
-			http*) echo $latestXrayVer ;;
-			*) echo "v$1" ;;
+		v*) echo "$1" ;;
+		http*) echo $latestXrayVer ;;
+		*) echo "v$1" ;;
 		esac
 	else
 		echo ""
@@ -180,22 +180,22 @@ getVersion() {
 
 archAffix() {
 	case "$(uname -m)" in
-		i686 | i386) echo '32' ;;
-		x86_64 | amd64) echo '64' ;;
-		armv5tel) echo 'arm32-v5' ;;
-		armv6l) echo 'arm32-v6' ;;
-		armv7 | armv7l) echo 'arm32-v7a' ;;
-		armv8 | aarch64) echo 'arm64-v8a' ;;
-		mips64le) echo 'mips64le' ;;
-		mips64) echo 'mips64' ;;
-		mipsle) echo 'mips32le' ;;
-		mips) echo 'mips32' ;;
-		ppc64le) echo 'ppc64le' ;;
-		ppc64) echo 'ppc64' ;;
-		ppc64le) echo 'ppc64le' ;;
-		riscv64) echo 'riscv64' ;;
-		s390x) echo 's390x' ;;
-		*) red " 不支持的CPU架构！" && exit 1 ;;
+	i686 | i386) echo '32' ;;
+	x86_64 | amd64) echo '64' ;;
+	armv5tel) echo 'arm32-v5' ;;
+	armv6l) echo 'arm32-v6' ;;
+	armv7 | armv7l) echo 'arm32-v7a' ;;
+	armv8 | aarch64) echo 'arm64-v8a' ;;
+	mips64le) echo 'mips64le' ;;
+	mips64) echo 'mips64' ;;
+	mipsle) echo 'mips32le' ;;
+	mips) echo 'mips32' ;;
+	ppc64le) echo 'ppc64le' ;;
+	ppc64) echo 'ppc64' ;;
+	ppc64le) echo 'ppc64le' ;;
+	riscv64) echo 'riscv64' ;;
+	s390x) echo 's390x' ;;
+	*) red " 不支持的CPU架构！" && exit 1 ;;
 	esac
 
 	return 0
@@ -272,12 +272,12 @@ getData() {
 		echo "   6) wiregard"
 		read -p "请选择伪装类型[默认：无]：" answer
 		case $answer in
-			2) HEADER_TYPE="utp" ;;
-			3) HEADER_TYPE="srtp" ;;
-			4) HEADER_TYPE="wechat-video" ;;
-			5) HEADER_TYPE="dtls" ;;
-			6) HEADER_TYPE="wireguard" ;;
-			*) HEADER_TYPE="none" ;;
+		2) HEADER_TYPE="utp" ;;
+		3) HEADER_TYPE="srtp" ;;
+		4) HEADER_TYPE="wechat-video" ;;
+		5) HEADER_TYPE="dtls" ;;
+		6) HEADER_TYPE="wireguard" ;;
+		*) HEADER_TYPE="none" ;;
 		esac
 		yellow "伪装类型：$HEADER_TYPE"
 		SEED=$(cat /proc/sys/kernel/random/uuid)
@@ -296,9 +296,9 @@ getData() {
 		read -p "请选择流控模式[默认:direct]" answer
 		[[ -z "$answer" ]] && answer=1
 		case $answer in
-			1) FLOW="xtls-rprx-direct" ;;
-			2) FLOW="xtls-rprx-origin" ;;
-			*) red "无效选项，使用默认的xtls-rprx-direct" && FLOW="xtls-rprx-direct" ;;
+		1) FLOW="xtls-rprx-direct" ;;
+		2) FLOW="xtls-rprx-origin" ;;
+		*) red "无效选项，使用默认的xtls-rprx-direct" && FLOW="xtls-rprx-direct" ;;
 		esac
 		yellow "流控模式：$FLOW"
 	fi
@@ -333,34 +333,34 @@ getData() {
 			PROXY_URL="https://bing.wallpaper.pics"
 		else
 			case $answer in
-				1) PROXY_URL="" ;;
-				2)
-					len=${#SITES[@]}
-					((len--))
-					while true; do
-						index=$(shuf -i0-${len} -n1)
-						PROXY_URL=${SITES[$index]}
-						host=$(echo ${PROXY_URL} | cut -d/ -f3)
-						ip=$(curl -sm8 ipget.net/?ip=${host})
-						res=$(echo -n ${ip} | grep ${host})
-						if [[ "${res}" == "" ]]; then
-							echo "$ip $host" >>/etc/hosts
-							break
-						fi
-					done
-					;;
-				3) PROXY_URL="https://bing.wallpaper.pics" ;;
-				4)
-					read -p "请输入反代站点(以http或者https开头)：" PROXY_URL
-					if [[ -z "$PROXY_URL" ]]; then
-						red "请输入反代网站！"
-						exit 1
-					elif [[ "${PROXY_URL:0:4}" != "http" ]]; then
-						red "反代网站必须以http或https开头！"
-						exit 1
+			1) PROXY_URL="" ;;
+			2)
+				len=${#SITES[@]}
+				((len--))
+				while true; do
+					index=$(shuf -i0-${len} -n1)
+					PROXY_URL=${SITES[$index]}
+					host=$(echo ${PROXY_URL} | cut -d/ -f3)
+					ip=$(curl -sm8 ipget.net/?ip=${host})
+					res=$(echo -n ${ip} | grep ${host})
+					if [[ "${res}" == "" ]]; then
+						echo "$ip $host" >>/etc/hosts
+						break
 					fi
-					;;
-				*) red "请输入正确的选项！" && exit 1 ;;
+				done
+				;;
+			3) PROXY_URL="https://bing.wallpaper.pics" ;;
+			4)
+				read -p "请输入反代站点(以http或者https开头)：" PROXY_URL
+				if [[ -z "$PROXY_URL" ]]; then
+					red "请输入反代网站！"
+					exit 1
+				elif [[ "${PROXY_URL:0:4}" != "http" ]]; then
+					red "反代网站必须以http或https开头！"
+					exit 1
+				fi
+				;;
+			*) red "请输入正确的选项！" && exit 1 ;;
 			esac
 		fi
 		REMOTE_HOST=$(echo ${PROXY_URL} | cut -d/ -f3)
@@ -490,9 +490,9 @@ getCert() {
 		CERT_FILE="/usr/local/etc/xray/${DOMAIN}.pem"
 		KEY_FILE="/usr/local/etc/xray/${DOMAIN}.key"
 		~/.acme.sh/acme.sh --install-cert -d $DOMAIN --ecc \
-		--key-file $KEY_FILE \
-		--fullchain-file $CERT_FILE \
-		--reloadcmd "service nginx force-reload"
+			--key-file $KEY_FILE \
+			--fullchain-file $CERT_FILE \
+			--reloadcmd "service nginx force-reload"
 		[[ -f $CERT_FILE && -f $KEY_FILE ]] || {
 			red "抱歉，证书申请失败"
 			green "建议如下："
@@ -532,32 +532,32 @@ configNginx() {
 			worker_processes auto;
 			error_log /var/log/nginx/error.log;
 			pid /run/nginx.pid;
-			
+
 			# Load dynamic modules. See /usr/share/doc/nginx/README.dynamic.
 			include /usr/share/nginx/modules/*.conf;
-			
+
 			events {
 			    worker_connections 1024;
 			}
-			
+
 			http {
 			    log_format  main  '\$remote_addr - \$remote_user [\$time_local] "\$request" '
 			                      '\$status \$body_bytes_sent "\$http_referer" '
 			                      '"\$http_user_agent" "\$http_x_forwarded_for"';
-			
+
 			    access_log  /var/log/nginx/access.log  main;
 			    server_tokens off;
-			
+
 			    sendfile            on;
 			    tcp_nopush          on;
 			    tcp_nodelay         on;
 			    keepalive_timeout   65;
 			    types_hash_max_size 2048;
 			    gzip                on;
-			
+
 			    include             /etc/nginx/mime.types;
 			    default_type        application/octet-stream;
-			
+
 			    # Load modular configuration files from the /etc/nginx/conf.d directory.
 			    # See http://nginx.org/en/docs/ngx_core_module.html#include
 			    # for more information.
@@ -588,13 +588,13 @@ configNginx() {
 				    server_name ${DOMAIN};
 				    return 301 https://\$server_name:${PORT}\$request_uri;
 				}
-				
+
 				server {
 				    listen       ${PORT} ssl http2;
 				    listen       [::]:${PORT} ssl http2;
 				    server_name ${DOMAIN};
 				    charset utf-8;
-				
+
 				    # ssl配置
 				    ssl_protocols TLSv1.1 TLSv1.2;
 				    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;
@@ -605,13 +605,13 @@ configNginx() {
 				    ssl_session_tickets off;
 				    ssl_certificate $CERT_FILE;
 				    ssl_certificate_key $KEY_FILE;
-				
+
 				    root /usr/share/nginx/html;
 				    location / {
 				        $action
 				    }
 				    $ROBOT_CONFIG
-				
+
 				    location ${WSPATH} {
 				      proxy_redirect off;
 				      proxy_pass http://127.0.0.1:${XPORT};
@@ -760,8 +760,8 @@ installXray() {
 		exit 1
 	fi
 	systemctl stop xray
-	mkdir -p /usr/local/etc/xray /usr/local/share/xray && \
-	unzip /tmp/xray/xray.zip -d /tmp/xray
+	mkdir -p /usr/local/etc/xray /usr/local/share/xray &&
+		unzip /tmp/xray/xray.zip -d /tmp/xray
 	cp /tmp/xray/xray /usr/local/bin
 	cp /tmp/xray/geo* /usr/local/share/xray
 	chmod +x /usr/local/bin/xray || {
@@ -774,7 +774,7 @@ installXray() {
 		Description=Xray Service by Misaka-blog
 		Documentation=https://github.com/Misaka-blog
 		After=network.target nss-lookup.target
-		
+
 		[Service]
 		User=root
 		#User=nobody
@@ -784,7 +784,7 @@ installXray() {
 		ExecStart=/usr/local/bin/xray run -config /usr/local/etc/xray/config.json
 		Restart=on-failure
 		RestartPreventExitStatus=23
-		
+
 		[Install]
 		WantedBy=multi-user.target
 	EOF
@@ -1795,11 +1795,11 @@ menu() {
 	echo -e "# ${GREEN}作者${PLAIN}: 网络跳越(hijk) & MisakaNo                           #"
 	echo -e "# ${GREEN}博客${PLAIN}: https://blog.misaka.rest                            #"
 	echo -e "# ${GREEN}GitHub 项目${PLAIN}: https://github.com/blog-misaka               #"
-    echo -e "# ${GREEN}GitLab 项目${PLAIN}: https://gitlab.com/misakablog                #"
-    echo -e "# ${GREEN}Telegram 频道${PLAIN}: https://t.me/misakablogchannel             #"
-    echo -e "# ${GREEN}Telegram 群组${PLAIN}: https://t.me/+CLhpemKhaC8wZGIx             #"
-    echo -e "# ${GREEN}YouTube 频道${PLAIN}: https://suo.yt/8EOkDib                      #"
-    echo "#############################################################"
+	echo -e "# ${GREEN}GitLab 项目${PLAIN}: https://gitlab.com/misakablog                #"
+	echo -e "# ${GREEN}Telegram 频道${PLAIN}: https://t.me/misakablogchannel             #"
+	echo -e "# ${GREEN}Telegram 群组${PLAIN}: https://t.me/+CLhpemKhaC8wZGIx             #"
+	echo -e "# ${GREEN}YouTube 频道${PLAIN}: https://www.youtube.com/@misaka-blog        #"
+	echo "#############################################################"
 	echo -e "  "
 	echo -e "  ${GREEN}1.${PLAIN}   安装Xray-VMESS${PLAIN}${RED}(不推荐)${PLAIN}"
 	echo -e "  ${GREEN}2.${PLAIN}   安装Xray-${BLUE}VMESS+mKCP${PLAIN}"
@@ -1836,31 +1836,31 @@ menu() {
 
 	read -p "请选择操作[0-23]：" answer
 	case $answer in
-		0) exit 1 ;;
-		1) install ;;
-		2) KCP="true" && install ;;
-		3) TLS="true" && install ;;
-		4) TLS="true" && WS="true" && install ;;
-		5) VLESS="true" && KCP="true" && install ;;
-		6) VLESS="true" && TLS="true" && install ;;
-		7) VLESS="true" && TLS="true" && WS="true" && install ;;
-		8) VLESS="true" && TLS="true" && XTLS="true" && install ;;
-		9) TROJAN="true" && TLS="true" && install ;;
-		10) TROJAN="true" && TLS="true" && XTLS="true" && install ;;
-		11) update ;;
-		12) uninstall ;;
-		13) start ;;
-		14) restart ;;
-		15) stop ;;
-		16) showInfo ;;
-		17) showLog ;;
-		18) warpmenu ;;
-		19) setdns64 ;;
-		20) system_optimize ;;
-		21) open_ports ;;
-		22) openipv6 ;;
-		23) closeipv6 ;;
-		*) red "请选择正确的操作！" && exit 1 ;;
+	0) exit 1 ;;
+	1) install ;;
+	2) KCP="true" && install ;;
+	3) TLS="true" && install ;;
+	4) TLS="true" && WS="true" && install ;;
+	5) VLESS="true" && KCP="true" && install ;;
+	6) VLESS="true" && TLS="true" && install ;;
+	7) VLESS="true" && TLS="true" && WS="true" && install ;;
+	8) VLESS="true" && TLS="true" && XTLS="true" && install ;;
+	9) TROJAN="true" && TLS="true" && install ;;
+	10) TROJAN="true" && TLS="true" && XTLS="true" && install ;;
+	11) update ;;
+	12) uninstall ;;
+	13) start ;;
+	14) restart ;;
+	15) stop ;;
+	16) showInfo ;;
+	17) showLog ;;
+	18) warpmenu ;;
+	19) setdns64 ;;
+	20) system_optimize ;;
+	21) open_ports ;;
+	22) openipv6 ;;
+	23) closeipv6 ;;
+	*) red "请选择正确的操作！" && exit 1 ;;
 	esac
 }
 
@@ -1868,6 +1868,6 @@ action=$1
 [[ -z $1 ]] && action=menu
 
 case "$action" in
-	menu | update | uninstall | start | restart | stop | showInfo | showLog) ${action} ;;
-	*) echo " 参数错误" && echo " 用法: $(basename $0) [menu|update|uninstall|start|restart|stop|showInfo|showLog]" ;;
+menu | update | uninstall | start | restart | stop | showInfo | showLog) ${action} ;;
+*) echo " 参数错误" && echo " 用法: $(basename $0) [menu|update|uninstall|start|restart|stop|showInfo|showLog]" ;;
 esac
