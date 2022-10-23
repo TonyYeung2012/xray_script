@@ -326,11 +326,11 @@ getData() {
 		yellow "请选择伪装站类型:"
 		echo "   1) 静态网站(位于/usr/share/nginx/html)"
 		echo "   2) 小说站(随机选择)"
-		echo "   3) 高清壁纸站(https://bing.wallpaper.pics)"
+		echo "   3) CloudReve 自建网盘 DEMO (https://demo.cloudreve.org)"
 		echo "   4) 自定义反代站点(需以http或者https开头)"
 		read -p "请选择伪装网站类型 [默认:高清壁纸站]：" answer
 		if [[ -z "$answer" ]]; then
-			PROXY_URL="https://bing.wallpaper.pics"
+			PROXY_URL="https://demo.cloudreve.org"
 		else
 			case $answer in
 			1) PROXY_URL="" ;;
@@ -349,7 +349,7 @@ getData() {
 					fi
 				done
 				;;
-			3) PROXY_URL="https://bing.wallpaper.pics" ;;
+			3) PROXY_URL="https://demo.cloudreve.org" ;;
 			4)
 				read -p "请输入反代站点(以http或者https开头)：" PROXY_URL
 				if [[ -z "$PROXY_URL" ]]; then
