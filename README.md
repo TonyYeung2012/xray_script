@@ -1,7 +1,7 @@
 # Xray 一键安装脚本
 
 ```shell
-wget -N --no-check-certificate https://raw.githubusercontent.com/blog-misaka/xray-script/main/xray.sh && bash xray.sh
+wget -N --no-check-certificate https://github.com/TonyYeung2012/xray_script/blob/main/xray.sh && bash xray.sh
 ```
 
 ## 赞助我们
